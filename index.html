@@ -9,28 +9,37 @@
 </head>
 
 <body class="bg-white">
-  <section class="p-6 m-6 flex flex-col space-y-2">
+  <section
+    class="p-6 m-6 flex flex-col space-y-2 bg-[url('/assets/kids.jpg')] bg-cover bg-center bg-no-repeat rounded-xl backdrop-blur-sm bg-opacity-30">
     <div class="flex flex-col">
       <h1 class="text-3xl font-extrabold">
         Offrez un avenir. Un kit scolaire à la fois.
       </h1>
+      <p class="text-sm text-gray-600 italic">
+        Ensemble, visons 100 kits scolaires pour la rentrée 2025.
+      </p>
+      <!--<div>
+        <img src="assets/elev.png" class="object-cover" alt="" />
+</div>-->
+
       <p class="text-gray-500 text-left text-sm font-light">
         Soutenez un enfant en situation difficile en <br />
         faisant un don de 20 USD ou plus.<br />
         Chaque contribution finance un kit scolaire complet pour la rentrée.
       </p>
     </div>
-    <div class="flex flex-col">
+    <!-- <div class="flex flex-col">
       <div class="w-full text-sm text-gray-500 mb-0 flex flex-row items-center justify-between">
         <p>0 HTG</p>
         <p>25 000 HTG</p>
       </div>
       <div class="w-full rounded-2xl h-6 mt-4 mb-4 border border-gray-700 overflow-hidden">
-        <div id="progress-bar" class="bg-blue-600 h-full rounded-xl" style="width: 0%">
+        <div id="progress-bar" class="bg-blue-600 h-full rounded-xl transition-all duration-700 ease-in-out"
+          style="width: 0%">
           <p id="percen-bar" class="text-white text-end">25%</p>
         </div>
       </div>
-    </div>
+</div>-->
     <div class="flex flex-col items-center space-y-6">
       <div id="prix-box" class="flex flex-row w-full items-center justify-center gap-4 flex-wrap">
         <button value="20" type="button"
@@ -38,29 +47,34 @@
           <p class="text-lg font-semibold text-gray-900">20 USD</p>
           <p class="text-sm text-gray-500">1 kit scolaire offert</p>
         </button>
-        <button value="1000" type="button"
+        <button value="40" type="button"
           class="flex flex-col items-center mt-4 justify-center gap-1 px-6 py-4 w-full md:w-0 rounded-xl border border-gray-700 bg-white hover:bg-gray-100 transition-all duration-200 shadow-sm active:ring-2 active:ring-green-500">
           <p class="text-lg font-semibold text-gray-900">40 USD</p>
           <p class="text-sm text-gray-500">2 kits scolaires offerts</p>
         </button>
-        <button value="2500" type="button"
+        <button value="100" type="button"
           class="flex flex-col items-center mt-4 justify-center gap-1 px-6 py-4 w-full md:w-0 rounded-xl border border-gray-700 bg-white hover:bg-gray-100 transition-all duration-200 shadow-sm active:ring-2 active:ring-purple-500">
           <p class="text-lg font-semibold text-gray-900">100 USD</p>
           <p class="text-sm text-gray-500">5 kits scolaires offerts</p>
         </button>
       </div>
       <div class="flex flex-row w-full items-center justify-between md:justify-normal">
-        <a href="#"
-          class="p-2 w-[50%] rounded bg-blue-600 text-sm text-white text-center font-bold hover:bg-blue-700 animate">Faire
+        <a id="donbtn"
+          class="p-2 w-[50%] rounded bg-blue-600 text-sm text-white text-center font-bold hover:bg-blue-700 hover:scale-105 active:scale-95 transition-transform duration-300">Faire
           un don maintenant</a>
-        <a href="" class="underline text-gray-500 text-sm">Learn more</a>
+        <a id="donbtn" class="underline text-gray-500 text-sm">Learn more</a>
       </div>
     </div>
+    <span class="text-xs text-red-500 font-semibold uppercase tracking-wide">
+      Campagne active jusqu’au 7 septembre
+    </span>
+
     <p class="text-center w-full mt-6 mb-0 text-sm font-extralight italic">
       Un projet porté par la Dreamers Conference 2025
     </p>
   </section>
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     // Set progress dynamically
 
@@ -68,9 +82,70 @@
     const montant = 30000;
     const progress = Math.floor((montant / goal) * 100); // pourcentage de progression
     // for example
+    let dons = document.querySelectorAll("button");
     document.getElementById("progress-bar").style.width = progress + "%";
 
     document.getElementById("percen-bar").innerText = `${progress} %`;
+
+    let prix = null;
+
+    dons.forEach((don) => {
+      don.addEventListener("click", () => {
+        prix = don.value;
+      });
+    });
+    const buttons = document.querySelectorAll("#prix-box button");
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        buttons.forEach((b) =>
+          b.classList.remove(
+            "ring-2",
+            "ring-blue-500",
+            "ring-green-500",
+            "ring-purple-500",
+          ),
+        );
+        // Based on value, apply a unique ring color
+        if (btn.value === "20") {
+          btn.classList.add("ring-2", "ring-blue-500");
+        } else if (btn.value === "40") {
+          btn.classList.add("ring-2", "ring-green-500");
+        } else if (btn.value === "100") {
+          btn.classList.add("ring-2", "ring-purple-500");
+        }
+      });
+    });
+
+    document.getElementById("donbtn").addEventListener("click", () => {
+      if (!prix) {
+        Swal.fire({
+          icon: "warning",
+          title: "Sélection requise",
+          text: "Veuillez sélectionner un montant avant de continuer.",
+          confirmButtonText: "OK",
+        });
+        return;
+      }
+
+      const message = `Bonjour, je souhaite contribuer à la campagne Dreamers Conference 2025 avec un don de ${prix} USD. Merci de me partager les prochaines étapes.`;
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappNumber = "50947600620"; // ← remplace par ton numéro WhatsApp
+
+      Swal.fire({
+        title: "Prêt à donner ?",
+        text: `Vous allez être redirigé vers WhatsApp pour un don de ${prix} USD.`,
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonText: "Continuer",
+        cancelButtonText: "Annuler",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const url = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+          window.open(url, "_blank");
+        }
+      });
+    });
   </script>
 </body>
 
