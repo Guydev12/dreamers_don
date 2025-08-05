@@ -78,17 +78,17 @@
   <script>
     // Set progress dynamically
 
-    const goal = 125000;
-    const montant = 30000;
-    const progress = Math.floor((montant / goal) * 100); // pourcentage de progression
-    // for example
-    let dons = document.querySelectorAll("button");
-    document.getElementById("progress-bar").style.width = progress + "%";
+    /*  const goal = 125000;
+const montant = 30000;
+const progress = Math.floor((montant / goal) * 100); // pourcentage de progression
+// for example
+ 
+document.getElementById("progress-bar").style.width = progress + "%";
 
-    document.getElementById("percen-bar").innerText = `${progress} %`;
-
+document.getElementById("percen-bar").innerText = `${progress} %`;
+*/
     let prix = null;
-
+    let dons = document.querySelectorAll("button");
     dons.forEach((don) => {
       don.addEventListener("click", () => {
         prix = don.value;
