@@ -1,0 +1,29 @@
+{
+  "name": "dreamer_don",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Guydev12/dreamers_don#readme",
+  "bugs": {
+    "url": "https://github.com/Guydev12/dreamers_don/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Guydev12/dreamers_don.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  },
+  "scripts": {
+    "tailwind": "tailwindcss -i ./css/style.css -o ./css/output.css --watch",
+    "serve": "live-server",
+    "dev": "concurrently \"npm run tailwind\" \"npm run serve\""
+  }
+}
